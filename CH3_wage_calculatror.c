@@ -29,6 +29,15 @@ int main()
     //  array and variable declarations
     //  ========================================================================
 
+    // arrays for holding employee data
+    long int clockNum[NUM_EMP] = { 98401, 526488, 76349, 34645, 127615 };
+    float wage[NUM_EMP] = { 10.6, 9.75, 10.5, 12.25, 8.35 };
+    float hours[NUM_EMP];
+    float ot[NUM_EMP];
+    float gross[NUM_EMP];
+    //  variables for calculating summary data
+    
+
 
 
 

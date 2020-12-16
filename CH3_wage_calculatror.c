@@ -53,14 +53,70 @@ int main()
     //  end banner
     //  ========================================================================
 
+    //  ========================================================================
+   
+    //  collect data
+    for (int ii = 0; ii < NUM_EMP; ii++)  //  collect data loop
+    {
+        float inputHours =  0.0;     //  number of hours worked (input variable)
+        float otHours =     0.0;    //  number of overtime hours per week
+        int   otTrue =      0;      //  flag if ot hours exist
 
+        //  gather input (hours worksed)
+        printf("Enter the number of hours employee %d worked: ", ii + 1);
+        scanf("%f", &inputHours);
 
+        //  send input to array
+        hours[ii] = inputHours;
 
+        //  check for ot
+        if (inputHours > STD_HOURS)
+        {
+            otTrue = 1;
+            otHours = (inputHours - STD_HOURS);
+            ot[ii] = otHours;
+        }
+        else
+        {
+            ot[ii] = 0.0;
+        }
+        
+        //  calculate gross
+        if (otTrue ==1)
+        {
+            gross[ii] = (wage[ii] * STD_HOURS)) + 
+                        (1.5 * (wage[ii] * otHours));
+        }
+        else
+        {
+            gross[ii] = (wage[ii] * inputHours);
+        }
 
+        totWage  += wage[ii]
+        totHours += hours[ii]
+        totOt    += ot[ii]
+        totGross += gross[ii]
 
+        }  // end collect data loop
+        
+        //  print output
+        printf("\n\n");
+        printf("=========================================================\n");
+        printf("Clock#\tWage\tHours\tOT\tGross\n");
+        printf("=========================================================\n");
 
+        for (int ii = 0; ii < NUM_EMP; ii++)  // print output loop
+        {
+            printf("%06i\t%.2f\t%.1f\t%.1f\t%.2f\n\n", clockNum[ii], wage[ii],
+                    hours[ii], ot[ii, gross[ii]]);
 
+        }  //  end print output loop
 
-    
-}
+        //  print summary data
+        printf("======\t=====\t====\t====\t=====\n\n");
+        printf("Total\t%.2f\t%.1f\t%.1f\t%.2f\n\n", totWage, totHours, totOt,
+                totGross);
+        printf("Average\t%.2f\t%.1f\t%.1f\t%.2f\n\n", (totWage/NUM_EMP), 
+                (totHours/NUM_EMP), (totOt/NUM_EMP), totGross/NUM_EMP);")
+} // end main
 

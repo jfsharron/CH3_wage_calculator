@@ -36,7 +36,22 @@ int main()
     float ot[NUM_EMP];
     float gross[NUM_EMP];
     //  variables for calculating summary data
+    float totWage =  0;         //  total of wages
+    float totHours = 0;         //  total of hours
+    float totOt =    0;         //  total of ot
+    float totGross = 0;         //  total of gross
+
+    //  ========================================================================
+    //  program banner
+    //  ========================================================================
+
+    printf("=============================================================\n");
+    printf("This is a program to calculate gross pay.\n");
+    printf("You will be prompted for employee data.\n");
+    printf("=============================================================\n\n");
     
+    //  end banner
+    //  ========================================================================
 
 
 

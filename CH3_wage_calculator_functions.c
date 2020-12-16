@@ -18,7 +18,11 @@
 //  ============================================================================
 
 void banner();
-void getHours();
+void getHours(long int clockNum[], float hours[], int size);
+void getOt(float hours[], float ot[], int size);
+void getGross(float wage[], float hours[], float ot[], float gross[], int size);
+void print(long int clockNum[], float wage[], float hours[], float ot[], 
+            float gross[], int size);
 
 //  ============================================================================
 //  constant declarations
@@ -26,6 +30,7 @@ void getHours();
 
 # define NUM_EMP 5
 # define STD_HOURS 40
+# define OT_RATE 1.5f
 
 
 //  ============================================================================
@@ -43,82 +48,24 @@ int main()
     float hours[NUM_EMP];
     float ot[NUM_EMP];
     float gross[NUM_EMP];
-    //  variables for calculating summary data
-    float totWage =  0;         //  total of wages
-    float totHours = 0;         //  total of hours
-    float totOt =    0;         //  total of ot
-    float totGross = 0;         //  total of gross
 
     //  display banner
     banner();
 
-    //  ========================================================================
-   
-    //  collect data
-    for (int ii = 0; ii < NUM_EMP; ii++)  //  collect data loop
-    {
-        float inputHours =  0.0;     //  number of hours worked (input variable)
-        float otHours =     0.0;    //  number of overtime hours per week
-        int   otTrue =      0;      //  flag if ot hours exist
+    //  collect hours
+    getHours(clockNum, hours, NUM_EMP);
 
-        //  gather input (hours worksed)
-        printf("Enter the number of hours employee %d worked: ", ii + 1);
-        scanf("%f", &inputHours);
+    //  calculate ot
+    getOt(hours, ot, NUM_EMP);
 
-        //  send input to array
-        hours[ii] = inputHours;
+    //  calculate gross
+    getGross(wage, hours, ot, gross, NUM_EMP);
 
-        //  check for ot
-        if (inputHours > STD_HOURS)
-        {
-            otTrue = 1;
-            otHours = (inputHours - STD_HOURS);
-            ot[ii] = otHours;
-        }
-        else
-        {
-            ot[ii] = 0.0;
-        }
-        
-        //  calculate gross
-        if (otTrue ==1)
-        {
-            gross[ii] = ((wage[ii] * STD_HOURS)) + 
-                        (1.5 * (wage[ii] * otHours));
-        }
-        else
-        {
-            gross[ii] = (wage[ii] * inputHours);
-        }
+    //  print output to screen
+    print(clockNum, wage, hours, ot, gross, NUM_EMP);
 
-        totWage  += wage[ii];
-        totHours += hours[ii];
-        totOt    += ot[ii];
-        totGross += gross[ii];
-
-        }  // end collect data loop
-        
-        //  print output
-        printf("\n\n");
-        printf("=========================================================\n");
-        printf("Clock#\tWage\tHours\tOT\tGross\n");
-        printf("=========================================================\n");
-
-        for (int ii = 0; ii < NUM_EMP; ii++)  // print output loop
-        {
-            printf("%06i\t%.2f\t%.1f\t%.1f\t%.2f\n\n", clockNum[ii], wage[ii],
-                    hours[ii], ot[ii], gross[ii]);
-
-        }  //  end print output loop
-
-        //  print summary data
-        printf("======\t=====\t====\t====\t=====\n\n");
-        printf("Total\t%.2f\t%.1f\t%.1f\t%.2f\n\n", totWage, totHours, totOt,
-                totGross);
-        printf("Average\t%.2f\t%.1f\t%.1f\t%.2f\n\n", (totWage/NUM_EMP), 
-                (totHours/NUM_EMP), (totOt/NUM_EMP), (totGross/NUM_EMP));
-} // end main
-//  ============================================================================
+    return(0);
+}  //  end main
 
 //  ============================================================================
 //  Function:   banner
@@ -145,3 +92,111 @@ void banner()
 //  Returns:    nothing (void function, values written to hours array)
 //  ============================================================================
 
+void getHours(long int clockNum[], float hours[], int size)
+{
+    for (int ii = 0; ii < size; ++ii)
+    {
+        printf("Enter the number of hours employee %d worked: ", ii + 1);
+        scanf("%f", &hours[ii]);   
+    }
+    printf("\n\n");
+}  //  end getHours
+//  ============================================================================
+
+//  ============================================================================
+//  Function:   getOt
+//  Purpose:    calculate overtime hours of employee
+//  Parameters: hours -    array of hours worked per employee
+//              ot -       array to hold calculated ot hours
+//              size -     number of employees
+//  Returns:    nothing (void function, values written to ot array)
+//  ============================================================================
+
+void getOt(float hours[], float ot[], int size)
+{
+    for (int ii = 0; ii < size; ++ii)
+    {
+        if (hours[ii] > STD_HOURS)
+        {
+            ot[ii] = (hours[ii] - STD_HOURS);
+        }
+        else
+        {
+            ot[ii] = 0.0;
+        }
+    }  
+}  //  end getOt
+//  ============================================================================
+
+//  ============================================================================
+//  Function:   getGross
+//  Purpose:    calculate gross pay for employee
+//  Parameters: wage -     array of employee wages
+//              hours -    array of hours worked per employee
+//              ot -       array of ot hours worked per employee
+//              gross -    array to hold calculated gross pay
+//              size -     number of employees
+//  Returns:    nothing (void function, values written to gross array)
+//  ============================================================================
+
+void getGross(float wage[], float hours[], float ot[], float gross[], int size)
+{
+    for (int ii = 0; ii < size; ++ii)
+    {
+        if (hours[ii] <= STD_HOURS)
+        {
+            gross[ii] = (wage[ii] * hours[ii]);
+        }
+        else
+        {
+            gross[ii] = (STD_HOURS * wage[ii]) + (ot[ii] * (wage[ii] * OT_RATE));
+        }
+    }
+}  //  end getGross
+//  ============================================================================
+
+//  ============================================================================
+//  Function:   print
+//  Purpose:    print report to screen
+//  Parameters: clockNum - array of clock numbers for employees
+//              wage -     array of employee wages
+//              hours -    array of hoursworked per employee
+//              ot -       array of ot hours worked per employee
+//              gross -    array ogf gross pay per employee
+//              size -     number of employees
+//  Returns:    nothing (void function, output printed to screen)
+//  ============================================================================
+
+void print(long int clockNum[], float wage[], float hours[], float ot[], 
+            float gross[], int size)
+{
+    //  totals used for calculating summary data (totals and averages)
+    //  ========================================================================
+    float totWage  = 0;
+    float totHours = 0;
+    float totOt    = 0;
+    float totGross = 0;
+
+    printf("\n\n");
+    printf("======================================\n");
+    printf("Clock#\tWage\tHours\tOT\tGross\n");
+    printf("======================================\n");
+
+    for (int ii = 0; ii < size; ++ii)
+    {
+        printf("%06i\t%.2f\t%.1f\t%.1f\t%.2f\n\n", clockNum[ii], wage[ii], 
+                hours[ii], ot[ii], gross[ii]);
+        
+        totWage  += wage[ii];
+        totHours += hours[ii];
+        totOt    += ot[ii];
+        totGross += gross[ii];
+    }
+
+    printf("======\t=====\t====\t====\t=====\n\n");
+    printf("Total\t%.2f\t%.1f\t%.1f\t%.2f\n\n", totWage, totHours, totOt, 
+            totGross);
+    printf("Average\t%.2f\t%.1f\t%.1f\t%.2f\n\n", (totWage/NUM_EMP),
+            (totHours/NUM_EMP), (totOt/NUM_EMP), (totGross/NUM_EMP));
+ }  // end print
+ //  ===========================================================================

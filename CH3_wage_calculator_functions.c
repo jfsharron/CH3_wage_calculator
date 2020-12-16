@@ -14,6 +14,13 @@
 #pragma warning(disable : 4996)  // statement to surpress VS2017 scanf warnings
 
 //  ============================================================================
+//  fuction prototypes
+//  ============================================================================
+
+void banner();
+void getHours();
+
+//  ============================================================================
 //  constant declarations
 //  ============================================================================
 
@@ -42,17 +49,8 @@ int main()
     float totOt =    0;         //  total of ot
     float totGross = 0;         //  total of gross
 
-    //  ========================================================================
-    //  program banner
-    //  ========================================================================
-
-    printf("=============================================================\n");
-    printf("This is a program to calculate gross pay.\n");
-    printf("You will be prompted for employee data.\n");
-    printf("=============================================================\n\n");
-    
-    //  end banner
-    //  ========================================================================
+    //  display banner
+    banner();
 
     //  ========================================================================
    
@@ -120,4 +118,30 @@ int main()
         printf("Average\t%.2f\t%.1f\t%.1f\t%.2f\n\n", (totWage/NUM_EMP), 
                 (totHours/NUM_EMP), (totOt/NUM_EMP), (totGross/NUM_EMP));
 } // end main
+//  ============================================================================
+
+//  ============================================================================
+//  Function:   banner
+//  Purpose:    display program purpose to user
+//  Parameters: none
+//  Returns:    nothing (informational output only)
+//  ============================================================================
+
+void banner()
+{
+    printf("=============================================================\n");
+    printf("This is a program to calculate gross pay.\n");
+    printf("You will be prompted for employee data.\n");
+    printf("=============================================================\n\n");
+}  //  end banner
+//  ============================================================================
+
+//  ============================================================================
+//  Function:   getHours
+//  Purpose:    collect employee hours from user
+//  Parameters: clockNum - array of clock numbers for employees
+//              hours -    array of hoursworked per employee
+//              size -     number of employees
+//  Returns:    nothing (void function, values written to hours array)
+//  ============================================================================
 

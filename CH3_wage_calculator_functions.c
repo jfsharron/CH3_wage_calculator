@@ -1,6 +1,6 @@
 //  ============================================================================
 //  Program:                CH3_wage_calculator
-//  File:                   CH3_wage_calculator.c
+//  File:                   CH3_wage_calculator_functions.c
 //  Software Engineer:      Jonas Sharron
 //  Date:                   25-September-2018
 //  Purpose:                Program which determines gross pay (calculate both
